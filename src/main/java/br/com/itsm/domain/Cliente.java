@@ -3,16 +3,28 @@ package br.com.itsm.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente extends Pessoa{
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
+import br.com.itsm.domain.enums.Perfil;
+
+@Entity(name = "cliente")
+public class Cliente extends Pessoa {
+
+	private static final long serialVersionUID = 1L;
+
+	@OneToMany(mappedBy = "cliente")
 	private List<Chamado> chamados = new ArrayList<>();
 
 	public Cliente() {
 		super();
+		addPerfis(Perfil.CLIENTE);
 	}
 
-	public Cliente(Integer id, String nome, String cpf, String senha) {
-		super(id, nome, cpf, senha);
+	public Cliente(Integer id, String nome, String cpf, String email, String senha) {
+		super(id, nome, cpf, email, senha);
+
+		addPerfis(Perfil.CLIENTE);
 	}
 
 	public List<Chamado> getChamados() {
@@ -22,6 +34,5 @@ public class Cliente extends Pessoa{
 	public void setChamados(List<Chamado> chamados) {
 		this.chamados = chamados;
 	}
-	
-	 
+
 }

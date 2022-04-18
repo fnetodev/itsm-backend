@@ -2,12 +2,14 @@ package br.com.itsm.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.itsm.domain.dto.ClienteDTO;
 import br.com.itsm.domain.enums.Perfil;
 
 @Entity(name = "cliente")
@@ -28,6 +30,18 @@ public class Cliente extends Pessoa {
 		super(id, nome, cpf, email, senha);
 
 		addPerfis(Perfil.CLIENTE);
+	}
+	
+	public Cliente(ClienteDTO clienteDTO) {
+		super();
+		this.id = clienteDTO.getId();
+		this.nome = clienteDTO.getNome();
+		this.cpf = clienteDTO.getCpf();
+		this.email = clienteDTO.getEmail();
+		this.senha = clienteDTO.getSenha();
+		this.perfis = clienteDTO.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
+		this.dataCriacao = clienteDTO.getDataCriacao();
+		
 	}
 
 	public List<Chamado> getChamados() {

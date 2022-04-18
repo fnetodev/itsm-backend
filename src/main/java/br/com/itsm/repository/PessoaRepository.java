@@ -1,11 +1,14 @@
 package br.com.itsm.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.itsm.domain.Tecnico;
+import br.com.itsm.domain.Pessoa;
 
-public interface PessoaRepository extends JpaRepository<Tecnico, Integer>{
+public interface PessoaRepository extends JpaRepository<Pessoa, Integer>{
 
-	
+	Optional<Pessoa> findByCpf(String cpf);
+	Optional<Pessoa> findByEmail(String email);
 	
 }

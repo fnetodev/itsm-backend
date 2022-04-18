@@ -6,6 +6,6 @@ import br.com.itsm.domain.Chamado;
 
 public interface ChamadoRepository extends JpaRepository<Chamado, Integer>{
 
-	
+
 	
 }

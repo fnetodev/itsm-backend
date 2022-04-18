@@ -6,7 +6,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Service;
 
 import br.com.itsm.domain.Pessoa;
@@ -51,6 +50,14 @@ public class TecnicoService {
 		validaPorCpfEEmail(tecnicoDTO);
 		oldTecnico = new Tecnico(tecnicoDTO);
 		return repository.save(oldTecnico);
+	}
+
+	public void delete(Integer id) {
+		Tecnico tecnico = findById(id);
+		if(tecnico.getChamados().size() > 0) {
+			throw new DataIntegrityViolationException("Ténico possui ordens de serviço e não pode ser deletado!");
+		}
+		repository.deleteById(id);
 	}
 
 	private void validaPorCpfEEmail(TecnicoDTO tecnicoDTO) {

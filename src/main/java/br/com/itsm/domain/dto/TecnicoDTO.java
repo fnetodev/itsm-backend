@@ -24,10 +24,12 @@ public class TecnicoDTO implements Serializable {
 	protected String cpf;
 	@NotNull(message = "O campo E-MAIL é requerido")
 	protected String email;
+	@NotNull(message = "O campo LOGIN é requerido")
+	protected String login;
 	@NotNull(message = "O campo SENHA é requerido")
 	protected String senha;
 	protected Set<Integer> perfis = new HashSet<>();
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate dataCriacao = LocalDate.now();
 
@@ -42,11 +44,12 @@ public class TecnicoDTO implements Serializable {
 		this.nome = tecnico.getNome();
 		this.cpf = tecnico.getCpf();
 		this.email = tecnico.getEmail();
+		this.login = tecnico.getLogin();
 		this.senha = tecnico.getSenha();
 		this.perfis = tecnico.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
 		this.dataCriacao = tecnico.getDataCriacao();
 		addPerfis(Perfil.CLIENTE);
-		
+
 	}
 
 	public Integer getId() {
@@ -81,6 +84,14 @@ public class TecnicoDTO implements Serializable {
 		this.email = email;
 	}
 
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
 	public String getSenha() {
 		return senha;
 	}
@@ -104,8 +115,5 @@ public class TecnicoDTO implements Serializable {
 	public void setDataCriacao(LocalDate dataCriacao) {
 		this.dataCriacao = dataCriacao;
 	}
-	
-	
-	
-	
+
 }

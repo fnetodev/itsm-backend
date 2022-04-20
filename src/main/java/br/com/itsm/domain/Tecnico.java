@@ -32,14 +32,15 @@ public class Tecnico extends Pessoa {
 		this.nome = tecnicoDTO.getNome();
 		this.cpf = tecnicoDTO.getCpf();
 		this.email = tecnicoDTO.getEmail();
+		this.login = tecnicoDTO.getLogin();
 		this.senha = tecnicoDTO.getSenha();
 		this.perfis = tecnicoDTO.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
 		this.dataCriacao = tecnicoDTO.getDataCriacao();
 		
 	}
 
-	public Tecnico(Integer id, String nome, String cpf, String email, String senha) {
-		super(id, nome, cpf, email, senha);
+	public Tecnico(Integer id, String nome, String cpf, String email,String login, String senha) {
+		super(id, nome, cpf, email, login, senha);
 		addPerfis(Perfil.CLIENTE);
 	}
 

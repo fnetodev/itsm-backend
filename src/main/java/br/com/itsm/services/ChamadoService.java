@@ -38,7 +38,7 @@ public class ChamadoService {
 
 	}
 
-	public Chamado create(@Valid ChamadoDTO chamadoDTO) {
+	public Chamado create(@Valid ChamadoDTO chamadoDTO) { 
 		return repository.save(newChamado(chamadoDTO));
 	}
 
@@ -58,7 +58,7 @@ public class ChamadoService {
 		if (chamadoDTO.getId() != null) {
 			chamado.setId(chamadoDTO.getId());
 		}
-		
+			
 		if (chamadoDTO.getStatus().equals(2)) {
 			chamado.setDataFechamento(LocalDate.now());
 		}

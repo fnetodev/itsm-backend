@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.itsm.domain.Cliente;
@@ -25,6 +26,9 @@ public class ClienteService {
 	@Autowired
 	private PessoaRepository pessoaRepository;
 
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+
 	public Cliente findById(Integer id) {
 		Optional<Cliente> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id: " + id));
@@ -36,16 +40,18 @@ public class ClienteService {
 		return repository.findAll();
 	}
 
-	public Cliente create(ClienteDTO ClienteDTO) {
-		ClienteDTO.setId(null);
-		validaPorCpfEEmail(ClienteDTO);
-		Cliente Cliente = new Cliente(ClienteDTO);
-		return repository.save(Cliente);
+	public Cliente create(ClienteDTO clienteDTO) {
+		clienteDTO.setId(null);
+		clienteDTO.setSenha(encoder.encode(clienteDTO.getSenha()));
+		validaPorCpfEEmail(clienteDTO);
+		Cliente cliente = new Cliente(clienteDTO);
+		return repository.save(cliente);
 	}
 
 	public Cliente update(Integer id, @Valid ClienteDTO ClienteDTO) {
 
 		ClienteDTO.setId(id);
+		ClienteDTO.setSenha(encoder.encode(ClienteDTO.getSenha()));
 		Cliente oldCliente = findById(id);
 		validaPorCpfEEmail(ClienteDTO);
 		oldCliente = new Cliente(ClienteDTO);
@@ -54,7 +60,7 @@ public class ClienteService {
 
 	public void delete(Integer id) {
 		Cliente Cliente = findById(id);
-		if(Cliente.getChamados().size() > 0) {
+		if (Cliente.getChamados().size() > 0) {
 			throw new DataIntegrityViolationException("Cliente possui ordens de serviço e não pode ser deletado!");
 		}
 		repository.deleteById(id);

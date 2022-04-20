@@ -38,12 +38,16 @@ public abstract class Pessoa implements Serializable {
 
 	@Column(unique = true)
 	protected String email;
+
+	@Column(unique = true)
+	protected String login;
+
 	protected String senha;
-	
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	protected Set<Integer> perfis = new HashSet<>();
-	
+
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate dataCriacao = LocalDate.now();
 
@@ -52,12 +56,13 @@ public abstract class Pessoa implements Serializable {
 		addPerfis(Perfil.CLIENTE);
 	}
 
-	public Pessoa(Integer id, String nome, String cpf, String email, String senha) {
+	public Pessoa(Integer id, String nome, String cpf, String email, String login, String senha) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.email = email;
+		this.login = login;
 		this.senha = senha;
 		addPerfis(Perfil.CLIENTE);
 	}
@@ -92,6 +97,14 @@ public abstract class Pessoa implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public String getSenha() {
